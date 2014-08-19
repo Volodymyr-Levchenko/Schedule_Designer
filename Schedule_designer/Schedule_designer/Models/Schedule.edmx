@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ScheduleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="activity_class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="class_name" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="activity_type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="type_name" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="start_time" Type="datetime" Nullable="false" />
+          <Property Name="end_time" Type="datetime" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+          <Property Name="class" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Schedule_ToTable">
+          <End Role="activity_type" Type="Self.activity_type" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="activity_type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_ToTable_1">
+          <End Role="activity_class" Type="Self.activity_class" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="activity_class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ScheduleModelStoreContainer">
+          <EntitySet Name="activity_class" EntityType="Self.activity_class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="activity_type" EntityType="Self.activity_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Schedule_ToTable" Association="Self.FK_Schedule_ToTable">
+            <End Role="activity_type" EntitySet="activity_type" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_ToTable_1" Association="Self.FK_Schedule_ToTable_1">
+            <End Role="activity_class" EntitySet="activity_class" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ScheduleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="activity_class">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="class_name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_ToTable_1" FromRole="activity_class" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="activity_type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="type_name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_ToTable" FromRole="activity_type" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="start_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <Property Name="class" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="activity_class" Relationship="Self.FK_Schedule_ToTable_1" FromRole="Schedule" ToRole="activity_class" />
+          <NavigationProperty Name="activity_type" Relationship="Self.FK_Schedule_ToTable" FromRole="Schedule" ToRole="activity_type" />
+        </EntityType>
+        <Association Name="FK_Schedule_ToTable_1">
+          <End Role="activity_class" Type="Self.activity_class" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="activity_class">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="class" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_ToTable">
+          <End Role="activity_type" Type="Self.activity_type" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="activity_type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ScheduleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="activity_class" EntityType="Self.activity_class" />
+          <EntitySet Name="activity_type" EntityType="Self.activity_type" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+          <AssociationSet Name="FK_Schedule_ToTable_1" Association="Self.FK_Schedule_ToTable_1">
+            <End Role="activity_class" EntitySet="activity_class" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_ToTable" Association="Self.FK_Schedule_ToTable">
+            <End Role="activity_type" EntitySet="activity_type" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ScheduleModelStoreContainer" CdmEntityContainer="ScheduleEntities">
+          <EntitySetMapping Name="activity_class">
+            <EntityTypeMapping TypeName="ScheduleModel.activity_class">
+              <MappingFragment StoreEntitySet="activity_class">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="activity_type">
+            <EntityTypeMapping TypeName="ScheduleModel.activity_type">
+              <MappingFragment StoreEntitySet="activity_type">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="ScheduleModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="class" ColumnName="class" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
