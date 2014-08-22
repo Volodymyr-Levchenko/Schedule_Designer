@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,22 +20,22 @@ namespace Schedule_designer.Controllers
 
         public void InitRepos()
         {
+            var dbContext = new ScheduleEntities();
+            scheduleRepository = new Repository<Schedule>(dbContext);
+            activityTypesRepository = new Repository<activity_type>(dbContext);
+            activityClassRepository = new Repository<activity_class>(dbContext);
+        }
+        [Route("getAll")]
+        public IHttpActionResult Get()
+        {
+            var result = activityClassRepository.GetAll();
+            return Ok(result);
             
         }
 
-        public IEnumerable<activity_type> GetActivityTypes()
+        public activity_class Get(int id)
         {
-            InitRepos();
-            using (var dbContext = new ScheduleEntities())
-            {
-                scheduleRepository = new Repository<Schedule>(dbContext);
-                activityTypesRepository = new Repository<activity_type>(dbContext);
-                activityClassRepository = new Repository<activity_class>(dbContext);
-
-                IEnumerable<activity_type> res = activityTypesRepository.GetAll();
-                return res;
-            }
-           
+            return activityClassRepository.GetById(id);
         }
     }
 }

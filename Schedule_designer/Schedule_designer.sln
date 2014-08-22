@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schedule_designer", "Schedule_designer\Schedule_designer.csproj", "{44B207A8-2C96-475F-849F-E6326D738CCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface_angular", "Interface_angular\Interface_angular.csproj", "{9805EC07-A1C2-46E3-9812-16520EF4077C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{44B207A8-2C96-475F-849F-E6326D738CCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44B207A8-2C96-475F-849F-E6326D738CCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44B207A8-2C96-475F-849F-E6326D738CCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9805EC07-A1C2-46E3-9812-16520EF4077C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9805EC07-A1C2-46E3-9812-16520EF4077C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9805EC07-A1C2-46E3-9812-16520EF4077C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9805EC07-A1C2-46E3-9812-16520EF4077C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
